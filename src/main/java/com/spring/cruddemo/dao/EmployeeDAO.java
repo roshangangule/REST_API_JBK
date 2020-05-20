@@ -1,5 +1,6 @@
 package com.spring.cruddemo.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.spring.cruddemo.entity.Country;
@@ -24,4 +25,8 @@ public interface EmployeeDAO {
 	public void deleteCountryById(int countryId);
 
 	public List<Employee> getEmployee();
+
+	public List<Employee> getEmployeeByDate(LocalDateTime time);
+
+	public List<Employee> getEmployeeByName(String name);
 }

@@ -8,25 +8,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="country")
+@Table(name = "country")
 public class Country {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
-	@Column(name="cname")
+
+	@Column(name = "cname")
 	private String cname;
-	
+
 	public Country() {
-		
+
 	}
 
 	public Country(String cname) {
 		this.cname = cname;
 	}
-
 
 	public int getId() {
 		return id;
@@ -36,9 +35,9 @@ public class Country {
 		this.id = id;
 	}
 
-	/*
-	 * public String getCname() { return cname; }
-	 */
+	public String getCname() {
+		return cname;
+	}
 
 	public void setCname(String cname) {
 		this.cname = cname;
@@ -48,7 +47,5 @@ public class Country {
 	public String toString() {
 		return "Country [id=" + id + ", cname=" + cname + "]";
 	}
-	
-	
-	
+
 }

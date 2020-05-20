@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,32 @@ public class EmployeeController {
 		
 		return employees;
 
+	}
+	
+	//11
+	
+	@GetMapping("/employeesbyname/{name}")
+	public List<Employee> getEmployeeByName(@PathVariable String name) {
+		
+		
+		List<Employee> employee = employeeDao.getEmployeeByName(name);
+		
+		return employee;
+	}
+	
+	//10
+	
+	@GetMapping("/employees/listofemployeebeforetoday")
+	public List<Employee> getEmployeeByDate(){
+		
+		LocalDateTime time = java.time.LocalDateTime.now();
+		
+		time = time.with(LocalTime.MIDNIGHT);
+		
+		List<Employee> employees = employeeDao.getEmployeeByDate(time);
+		
+		
+		return employees;
 	}
 	
 	//4
@@ -156,6 +183,9 @@ public class EmployeeController {
 		
 		return "Country deleted!";
 	}
+	
+	
+	
 	
 	
 	

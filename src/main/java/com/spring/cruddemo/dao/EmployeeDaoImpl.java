@@ -1,5 +1,6 @@
 package com.spring.cruddemo.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -81,19 +82,19 @@ public class EmployeeDaoImpl implements EmployeeDAO {
 	@Override
 	public void saveCountry(Country country) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		currentSession.saveOrUpdate(country);
-		
+
 	}
 
 	@Override
 	public int deleteById(int employeeId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-				
+
 		Query query = currentSession.createQuery("delete from Employee where id=:employeeId");
 
 		query.setParameter("employeeId", employeeId);
-		
+
 		int i = query.executeUpdate();
 		return i;
 	}
@@ -101,21 +102,47 @@ public class EmployeeDaoImpl implements EmployeeDAO {
 	@Override
 	public void deleteCountryById(int countryId) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		Query query = currentSession.createQuery("delete from Employee where id=:countryId");
-		
+
 		query.setParameter("countryId", countryId);
-		
+
 		query.executeUpdate();
-		
+
 	}
 
 	@Override
 	public List<Employee> getEmployee() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		
+
 		return null;
+	}
+
+	@Override
+	public List<Employee> getEmployeeByDate(LocalDateTime time) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query query = currentSession.createQuery("from Employee where createddtm <:time");
+		query.setParameter("time", time);
+
+		List<Employee> employees = query.getResultList();
+
+		return employees;
+	}
+
+	@Override
+	public List<Employee> getEmployeeByName(String name) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query query = currentSession.createQuery("from Employee where name=:name");
+		
+		query.setParameter("name", name);
+
+		List<Employee> employee = query.getResultList();
+		
+		return employee;
 	}
 
 }
