@@ -1,11 +1,6 @@
 package com.spring.cruddemo.controller;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +13,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.cruddemo.dao.EmployeeDAO;
 import com.spring.cruddemo.entity.Country;
 import com.spring.cruddemo.entity.Employee;
 import com.spring.cruddemo.error.EmployeeNotFoundException;
+import com.spring.cruddemo.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
 
 	@Autowired
-	private EmployeeDAO employeeDao;
+	private EmployeeService employeeSevice;
 
-	public EmployeeController(EmployeeDAO theEmployeeDao) {
-		employeeDao = theEmployeeDao;
+	public EmployeeController(EmployeeService theEmployeeDao) {
+		employeeSevice = theEmployeeDao;
 	}
 
 	@GetMapping("/hello")
@@ -45,7 +40,7 @@ public class EmployeeController {
 	@GetMapping("/employees")
 	public List<Employee> getEmployees() {
 
-		return employeeDao.findAll();
+		return employeeSevice.findAll();
 
 	}
 	
@@ -53,7 +48,7 @@ public class EmployeeController {
 
 	@GetMapping("/employees/{employeeId}")
 	public Employee getEmployeesById(@PathVariable int employeeId) {
-		Employee employee = employeeDao.findById(employeeId);
+		Employee employee = employeeSevice.findById(employeeId);
 		if(employee == null) {
 			throw new EmployeeNotFoundException("Employee id not found - "+employeeId);
 		}
@@ -67,7 +62,7 @@ public class EmployeeController {
 	@GetMapping("/employees/status/{status}")
 	public List<Employee> getEmployeesByStatus(@PathVariable String status) {
 
-		List<Employee> employees = employeeDao.findByStatus(status);
+		List<Employee> employees = employeeSevice.findByStatus(status);
 		if(employees == null) {
 			throw new EmployeeNotFoundException("Employee id not found- "+status);
 		}
@@ -82,7 +77,7 @@ public class EmployeeController {
 	public List<Employee> getEmployeeByName(@PathVariable String name) {
 		
 		
-		List<Employee> employee = employeeDao.getEmployeeByName(name);
+		List<Employee> employee = employeeSevice.getEmployeeByName(name);
 		
 		return employee;
 	}
@@ -96,7 +91,7 @@ public class EmployeeController {
 		
 		time = time.with(LocalTime.MIDNIGHT);
 		
-		List<Employee> employees = employeeDao.getEmployeeByDate(time);
+		List<Employee> employees = employeeSevice.getEmployeeByDate(time);
 		
 		
 		return employees;
@@ -115,7 +110,7 @@ public class EmployeeController {
 		employee.setUpdateddtm(time);
 
 
-		employeeDao.save(employee);
+		employeeSevice.save(employee);
 
 		return "Employee added successfully.";
 	}
@@ -132,7 +127,7 @@ public class EmployeeController {
 		
 		
 
-		employeeDao.save(employee);
+		employeeSevice.save(employee);
 
 		return "Employee updated successfully.";
 	}
@@ -142,7 +137,7 @@ public class EmployeeController {
 	public List<Country> getCountries(){
 		
 		
-		return employeeDao.findAllCountries();
+		return employeeSevice.findAllCountries();
 	}
 	
 	//7
@@ -152,7 +147,7 @@ public class EmployeeController {
 		
 		country.setId(0);
 		
-		employeeDao.saveCountry(country);
+		employeeSevice.saveCountry(country);
 		
 		
 		return "Country added successfully.";
@@ -163,7 +158,7 @@ public class EmployeeController {
 	@DeleteMapping("/employees/{employeeId}")
 	public String deleteEmployee(@PathVariable int employeeId) {
 		
-		int i = employeeDao.deleteById(employeeId);
+		int i = employeeSevice.deleteById(employeeId);
 		
 		if(i == 0) {
 			throw new EmployeeNotFoundException("Employee id is not found - "+employeeId);
@@ -179,7 +174,7 @@ public class EmployeeController {
 	public String deleteCountries(@PathVariable int countryId) {
 		
 		
-		employeeDao.deleteCountryById(countryId);
+		employeeSevice.deleteCountryById(countryId);
 		
 		return "Country deleted!";
 	}
