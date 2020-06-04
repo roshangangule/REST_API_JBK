@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,10 @@ import com.spring.cruddemo.error.EmployeeNotFoundException;
 import com.spring.cruddemo.service.EmployeeService;
 
 @RestController
+
+@CrossOrigin("http://localhost:8080")
 @RequestMapping("/api")
+
 public class EmployeeController {
 
 	@Autowired
@@ -39,7 +43,7 @@ public class EmployeeController {
 	//1
 	@GetMapping("/employees")
 	public List<Employee> getEmployees() {
-
+System.out.println("hi");
 		return employeeSevice.findAll();
 
 	}
@@ -102,6 +106,7 @@ public class EmployeeController {
 	@PostMapping("/employees")
 	public String saveEmployee(@RequestBody Employee employee) {
 
+		System.out.println("hello");
 		employee.setId(0);
 
 		LocalDateTime time = java.time.LocalDateTime.now();
